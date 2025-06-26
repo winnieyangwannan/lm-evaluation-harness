@@ -42,7 +42,7 @@ model_name_ogs = ["Llama-3.1-8B-Instruct"]
 steer_types = ["positive-negative-addition-same"]
 
 return_type = "prompt"
-train_module = "mlp-down" #block
+train_module = "mlp" #block
 steer_poses = ["last"]  # "entity"
 steering_strength =2
 entity_types = ["song"]
@@ -82,8 +82,8 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
                     for layer in layers:
                         model_path = f"{task_name}_{model_name_og}_{train_module}_{steer_type}_{steer_pos}_layer_{layer}_{steering_strength}_{entity_type}_{known_unknown_split}_{epoch}"
                         huggingface_path= "winnieyangwannan/" + model_path
-                        job_name  = model_path
-                        save_path= f"/home/winnieyangwn/Output/{task_name_save}/{return_type}/{model_name_og}/{steer_type}/{steer_pos}/layer_{layer}/strength_{steering_strength}/{entity_type}/{known_unknown_split}/{train_module}/epoch_49/{task_name_eval}"
+                        job_name  = f"mmlu_eval_CASAL_{model_path}"
+                        save_path= f"/fsx-project/winnieyangwn/Output/{task_name_save}/{return_type}/{model_name_og}/{steer_type}/{steer_pos}/layer_{layer}/strength_{steering_strength}/{entity_type}/{known_unknown_split}/{train_module}/epoch_{epoch}/{task_name_eval}"
 
 
                         slurm_cmd = f'''sbatch --account=genai_interns --qos=lowest \

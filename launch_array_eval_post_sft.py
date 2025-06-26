@@ -39,7 +39,6 @@ task_name_save = "entity_sft-training"
 model_name_ogs = ["Llama-3.1-8B-Instruct"]
 # steer_types = ["negative-addition"]
 # steer_types = ["positive-negative-addition-opposite"]
-steer_types = ["positive-negative-addition-same"]
 
 return_type = "prompt"
 entity_types = ["song"]
@@ -59,7 +58,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
                     model_path = f"{task_name}_{model_name_og}_sft_{entity_type}_{known_unknown_split}"
                     huggingface_path= "winnieyangwannan/" + model_path
-                    job_name  = model_path
+                    job_name  = f"mmlu_eval_sft_{model_path}"
                     save_path= f"/home/winnieyangwn/Output/{task_name_save}/{return_type}/{model_name_og}/{entity_type}/{known_unknown_split}/"
 
 
