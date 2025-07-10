@@ -52,7 +52,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
        for model_path in model_paths:
 
                     huggingface_path= model_path
-                    model_name = os.basename(model_path)
+                    model_name = os.path.basename(model_path)
                     job_name  = f"mmlu_eval_{model_name}"
                     save_path= f"/fsx-project/winnieyangwn/Output/general_baseline/{model_name}/{task_name_eval}/"
 
