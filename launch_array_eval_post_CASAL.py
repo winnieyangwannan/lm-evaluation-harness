@@ -6,9 +6,6 @@ from os.path import join
 import argparse
 import numpy as np
 # model_path = "meta-llama/Llama-3.1-8B"
-
-
-
 def run_subprocess_slurm(command):
     # Execute the sbatch command
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
@@ -36,13 +33,16 @@ print("current_directory:", current_directory)
 task_name_eval = "mmlu"
 task_name = "entity"
 task_name_save = "entity_training"
-model_name_ogs = ["Llama-3.1-8B-Instruct"]
+# model_name_ogs = ["Llama-3.1-8B-Instruct"]
+model_name_ogs = ["OLMoE-1B-7B-0924-Instruct"]
+# model_name_ogs = ["Qwen2.5-VL-3B", "
 # steer_types = ["negative-addition"]
 # steer_types = ["positive-negative-addition-opposite"]
-steer_types = ["positive-negative-addition-same"]
+# steer_types = ["positive-negative-addition-same"]
+steer_types = ["pnas"]
 
 return_type = "prompt"
-train_module = "mlp" #block
+train_module =  "experts-down" #"mlp" #block
 steer_poses = ["last"]  # "entity"
 steering_strength =2
 entity_types = ["song"]
@@ -50,10 +50,11 @@ entity_types = ["song"]
 # entity_types = ["player", "city", "movie", "song", "all"]
 # steer_poses = ["last", "entity"]  # "entity"
 known_unknown_split = "3"
-epoch = 49
+epoch = 9
 batch_size = 64 # 64 #32
 n_train = 1152
 max_new_tokens = 100
+lr = 5e-3
 
 
 # Run the SLURM commands in parallel
@@ -78,12 +79,14 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
                         # layers = [22]
                     elif "Qwen3-30B-A3B" in model_name_og:
                         layers = np.arange(0, 47, 2)
-                        # layers = [22]
+                    elif  "OLMoE-1B-7B-0924-Instruct" in model_name_og:
+                        # layers = np.arange(0, 16, 2)    
+                        layers = [10]
                     for layer in layers:
-                        model_path = f"{task_name}_{model_name_og}_{train_module}_{steer_type}_{steer_pos}_layer_{layer}_{steering_strength}_{entity_type}_{known_unknown_split}_{epoch}"
+                        model_path = f"{task_name}_{model_name_og}_{train_module}_{steer_type}_layer_{layer}_{steering_strength}_{entity_type}_{known_unknown_split}_{lr}_{epoch}"
                         huggingface_path= "winnieyangwannan/" + model_path
                         job_name  = f"mmlu_eval_CASAL_{model_path}"
-                        save_path= f"/fsx-project/winnieyangwn/Output/{task_name_save}/{return_type}/{model_name_og}/{steer_type}/{steer_pos}/layer_{layer}/strength_{steering_strength}/{entity_type}/{known_unknown_split}/{train_module}/epoch_{epoch}/{task_name_eval}"
+                        save_path= f"/fsx-project/winnieyangwn/Output/{task_name_save}/{return_type}/{model_name_og}/{steer_type}/{steer_pos}/layer_{layer}/strength_{steering_strength}/{entity_type}/{known_unknown_split}/{train_module}/lr_{lr}/epoch_{epoch}/{task_name_eval}"
 
 
                         slurm_cmd = f'''sbatch --account=genai_interns --qos=lowest \

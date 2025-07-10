@@ -35,6 +35,7 @@ print("current_directory:", current_directory)
 
 task_name_eval = "mmlu"
 model_paths = ["meta-llama/Llama-3.1-8B-Instruct"]
+model_paths = ["allenai/OLMoE-1B-7B-0924-Instruct"]
 
 # steer_types = ["negative-addition"]
 # steer_types = ["positive-negative-addition-opposite"]
@@ -53,7 +54,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
                     huggingface_path= model_path
                     model_name = os.basename(model_path)
                     job_name  = f"mmlu_eval_{model_name}"
-                    save_path= f"/home/winnieyangwn/Output/GENERAL/{task_name_eval}/"
+                    save_path= f"/fsx-project/winnieyangwn/Output/general_baseline/{model_name}/{task_name_eval}/"
 
                     slurm_cmd = f'''sbatch --account=genai_interns --qos=lowest \
                         --job-name={job_name} --nodes=1 --gpus-per-node={gpus_per_node} \
