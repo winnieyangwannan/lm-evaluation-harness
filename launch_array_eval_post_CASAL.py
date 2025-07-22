@@ -33,8 +33,8 @@ print("current_directory:", current_directory)
 task_name_eval = "mmlu"
 task_name = "entity"
 task_name_save = "entity_training"
-# model_name_ogs = ["Llama-3.1-8B-Instruct"]
-model_name_ogs = ["OLMoE-1B-7B-0924-Instruct"]
+model_name_ogs = ["Llama-3.1-8B-Instruct"]
+# model_name_ogs = ["OLMoE-1B-7B-0924-Instruct"]
 # model_name_ogs = ["Qwen2.5-VL-3B", "
 # steer_types = ["negative-addition"]
 # steer_types = ["positive-negative-addition-opposite"]
@@ -42,19 +42,16 @@ model_name_ogs = ["OLMoE-1B-7B-0924-Instruct"]
 steer_types = ["pnas"]
 
 return_type = "prompt"
-train_module =  "experts-down" #"mlp" #block
+train_module =  "mlp" #"mlp" #block
 steer_poses = ["last"]  # "entity"
-steering_strength =2
+steering_strength =4
 entity_types = ["song"]
 # entity_types = ["all"]
 # entity_types = ["player", "city", "movie", "song", "all"]
 # steer_poses = ["last", "entity"]  # "entity"
 known_unknown_split = "3"
-epoch = 9
-batch_size = 64 # 64 #32
-n_train = 1152
-max_new_tokens = 100
-lr = 5e-3
+epoch = 19
+lr = 1e-3
 
 
 # Run the SLURM commands in parallel
@@ -75,7 +72,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
                         # layers = [40]
                     elif "Llama-3.1-8B-Instruct" in model_name_og:
                         layers = np.arange(0, 32+2, 2)
-                        # layers = [18]
+                        layers = [30]
                         # layers = [22]
                     elif "Qwen3-30B-A3B" in model_name_og:
                         layers = np.arange(0, 47, 2)

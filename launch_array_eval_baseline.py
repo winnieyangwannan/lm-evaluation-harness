@@ -30,6 +30,7 @@ def run_subprocess_slurm(command):
 
 gpus_per_node = 1
 
+
 current_directory = os.getcwd()
 print("current_directory:", current_directory)
 
