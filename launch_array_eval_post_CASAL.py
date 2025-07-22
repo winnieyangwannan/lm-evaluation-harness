@@ -51,7 +51,7 @@ entity_types = ["song"]
 # steer_poses = ["last", "entity"]  # "entity"
 known_unknown_split = "3"
 epoch = 19
-lr = 1e-3
+lr = 1e-4
 
 
 # Run the SLURM commands in parallel
@@ -83,7 +83,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
                         model_path = f"{task_name}_{model_name_og}_{train_module}_{steer_type}_layer_{layer}_{steering_strength}_{entity_type}_{known_unknown_split}_{lr}_{epoch}"
                         huggingface_path= "winnieyangwannan/" + model_path
                         job_name  = f"mmlu_eval_CASAL_{model_path}"
-                        save_path= f"/fsx-project/winnieyangwn/Output/{task_name_save}/{return_type}/{model_name_og}/{steer_type}/{steer_pos}/layer_{layer}/strength_{steering_strength}/{entity_type}/{known_unknown_split}/{train_module}/lr_{lr}/epoch_{epoch}/{task_name_eval}"
+                        save_path= f"/fsx-project/winnieyangwn/Output/{task_name_save}/{return_type}/{model_name_og}/{steer_type}/{steer_pos}/layer_{layer}/strength_{steering_strength}/{entity_type}/{known_unknown_split}/{train_module}/epoch_{epoch}/lr_{lr}/{task_name_eval}"
 
 
                         slurm_cmd = f'''sbatch --account=genai_interns --qos=lowest \
