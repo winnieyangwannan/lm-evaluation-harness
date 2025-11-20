@@ -73,7 +73,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
     for n_train in n_trains:
         for lr in lrs:
                 
-                        model_path = f"{task_name_train}_{algorithm}_{model_name_og}_lora_{lora}_lr_{lr}_beta_{beta}_{n_train}_{entity_type}_{known_unknown_split}_epoch_{epoch}"
+                        model_path = f"{task_name_train}_{algorithm}_{model_name_og}_lora_{lora}_lr_{lr}_beta_{beta}_{n_train}_{entity_type}_{known_unknown_split}_epoch_{epoch}_layer_{layer_modified}"
                         huggingface_path= "winnieyangwannan/" + model_path
                         job_name  = f"general_eval_post_{algorithm}_{model_path}"
                         save_path= f"{save_path}/Output/{task_name_train}_{algorithm}-training/prompt/{model_name_og}/lora_{lora}/lr_{lr}/beta_{beta}/{n_train}/{entity_type}/{known_unknown_split}/epoch_{epoch}/layer_{layer_modified}/{task_name_eval}"
