@@ -43,8 +43,8 @@ save_path = "/checkpoint/maui/winnieyangwn/casal" # use "." to save at root fold
 # -------------------------------------------------------------
 
 
-# task_name_evals = ["mmlu", "gsm8k", "gqpa"]
-task_name_evals = [ "mmlu","gsm8k", "gqpa"]
+task_name_evals = [ "mmlu","gsm8k", "gpqa"]
+task_name_evals = [ "gpqa"]
 
 algorithm = "grpo"
 # model_name_ogs = ["gemma-2-9b-it"]
