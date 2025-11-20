@@ -43,7 +43,9 @@ save_path = "/checkpoint/maui/winnieyangwn/casal" # use "." to save at root fold
 # -------------------------------------------------------------
 
 
-task_name_eval = "mmlu"
+# task_name_evals = ["mmlu", "gsm8k", "gqpa"]
+task_name_evals = [ "mmlu","gsm8k", "gqpa"]
+
 algorithm = "grpo"
 # model_name_ogs = ["gemma-2-9b-it"]
 # model_name_ogs = ["Qwen2.5-7B-Instruct", "Llama-3.1-8B-Instruct"]
@@ -55,11 +57,11 @@ train_module = "mlp" #  "mlp-up" # "experts" #  #  "experts" #     #block
 entity_type = "all"
 epoch = 1
 n_trains =[1280,12800]  # 1280 # 32 # 
-n_trains =[1280]  # 1280 # 32 # 
+# n_trains =[1280]  # 1280 # 32 # 
 
 max_new_tokens =100 #  100 # 100 # 100 # 100
-# lrs = [1e-5, 5e-6]
-lrs = [1e-5]
+lrs = [1e-5, 5e-6]
+# lrs = [1e-5]
 
 lora = 0
 beta = 0
@@ -72,10 +74,10 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
     futures = []
     for n_train in n_trains:
         for lr in lrs:
-                
+            for task_name_eval in task_name_evals:
                         model_path = f"{task_name_train}_{algorithm}_{model_name_og}_lora_{lora}_lr_{lr}_beta_{beta}_{n_train}_{entity_type}_{known_unknown_split}_epoch_{epoch}_layer_{layer_modified}"
                         huggingface_path= "winnieyangwannan/" + model_path
-                        job_name  = f"general_eval_post_{algorithm}_{model_path}"
+                        job_name  = f"{task_name_eval}_eval_post_{algorithm}_{model_path}"
                         save_path= f"{save_path}/Output/{task_name_train}_{algorithm}-training/prompt/{model_name_og}/lora_{lora}/lr_{lr}/beta_{beta}/{n_train}/{entity_type}/{known_unknown_split}/epoch_{epoch}/layer_{layer_modified}/{task_name_eval}"
 
                         slurm_cmd = f'''sbatch --account={account} --qos={qos} \
